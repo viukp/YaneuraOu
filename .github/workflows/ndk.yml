@@ -45,7 +45,8 @@ jobs:
       - name: ndk-build
         run: ./main/script/android_build.sh -e ${{ matrix.edition }}
 
-      # - uses: actions/upload-artifact@v4
-      #   with:
-      #     name: build-android_${{ github.run_number }}_${{ matrix.edition }}_${{ github.sha }}
-      #     path: ./main/build/**/*
+      - name: Upload Android Engine
+        uses: actions/upload-artifact@v4
+        with:
+          name: takewarabe-android_${{ matrix.edition }}
+          path: ./main/src/android/**/*
