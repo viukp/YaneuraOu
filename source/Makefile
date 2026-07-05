@@ -153,7 +153,7 @@ COMPILER_MACHINE := $(shell $(COMPILER) -dumpmachine 2>/dev/null)
 #  1 : 普通の駒得のみの評価関数
 #  2 : …
 # cf.【連載】評価関数を作ってみよう！その1 : http://yaneuraou.yaneu.com/2020/11/17/make-evaluate-function/
-MATERIAL_LEVEL = 1
+MATERIAL_LEVEL = 9
 
 # NNUE評価関数を実行ファイルに内蔵する。 ビルドするときにsourceフォルダ直下に"nn.bin"を配置する。
 EVAL_EMBEDDING = OFF
