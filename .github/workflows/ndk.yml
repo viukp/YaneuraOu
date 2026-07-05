@@ -12,42 +12,31 @@ on:
 
 jobs:
   build-android:
-    # ubuntu-latest = ubuntu-22.04
-    # https://docs.github.com/ja/actions/using-github-hosted-runners/about-github-hosted-runners
-    # https://github.com/actions/virtual-environments/blob/main/images/linux/Ubuntu2004-Readme.md
     runs-on: ubuntu-22.04
 
-    strategy:
-      matrix:
-        edition:
-          - YANEURAOU_ENGINE_NNUE
-          # - YANEURAOU_ENGINE_KPPT
-          # - YANEURAOU_ENGINE_KPP_KKPT
-          # - YANEURAOU_ENGINE_MATERIAL
-          # - YANEURAOU_MATE_ENGINE
-          # - TANUKI_MATE_ENGINE
-          # - USER_ENGINE
-
     steps:
-      # https://developer.android.com/ndk/downloads?hl=ja#stable-downloads
-      - name: Setup Android NDK r23b
-        uses: nttld/setup-ndk@v1
-        with:
-          ndk-version: r23b
-        # ⇨ Android r27では32bitサポートが終了したんじゃないかな、もしかして。
-        #   32bit向けにビルドのテスト自体はやりたいのでAndroid r23bに戻そっと…😢
-
       - name: Checkout own repository
         uses: actions/checkout@v3
         with:
           path: main
 
-      - name: ndk-build
-        run: ./main/script/android_build.sh -e ${{ matrix.edition }}
+      - name: Setup Android NDK r23b
+        uses: nttld/setup-ndk@v1
+        with:
+          ndk-version: r23b
 
-      - name: Upload Android Engine
+      - name: Direct ndk-build
+        run: |
+          cd main/src
+          # スクリプトを通さず、直接NDKビルドを走らせる
+          ndk-build APP_BUILD_SCRIPT=Android.mk NDK_APPLICATION_MK=Application.mk YANEURAOU_EDITION=YANEURAOU_ENGINE_NNUE
+
+      - name: Upload Anything
         uses: actions/upload-artifact@v4
         with:
-          name: takewarabe-android_${{ matrix.edition }}
+          name: takewarabe-android_FINAL
           path: |
-            ./main/libs/**/*
+            ./main/**/libs/**/*
+            ./main/**/obj/**/*
+            ./main/src/obj/**/*
+            ./main/src/libs/**/*
