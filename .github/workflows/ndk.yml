@@ -51,6 +51,3 @@ jobs:
           name: takewarabe-android_${{ matrix.edition }}
           path: |
             ./main/libs/**/*
-            ./main/obj/**/*
-            ./main/src/YaneuraOu*
-            ./main/YaneuraOu*
